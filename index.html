@@ -1,261 +1,342 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¡Feliz Cumpleaños, Papá!</title>
-  <style>
-    :root {
-      --bg-dark: #0f141a;
-      --card-bg: #1a222d;
-      --accent-gold: #f3c669;
-      --text-light: #e2e8f0;
-      --text-muted: #94a3b8;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Papá!</title>
+    <style>
+        :root {
+            --bg-color: #eaddca;
+            --envelope-color: #d8c3b0;
+            --envelope-dark: #c5af9c;
+            --flap-color: #cda88b;
+            --accent-red: #c0392b;
+            --paper-color: #f7f1e5;
+            --ink-blue: #2c3e50;
+            --text-dark: #34495e;
+            --font-serif: 'Georgia', serif;
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      background: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f141a 100%);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: var(--text-light);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow-x: hidden;
-    }
+        body {
+            background-color: var(--bg-color);
+            font-family: var(--font-serif);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
 
-    /* Contenedor Principal estilo Tarjeta de Viaje */
-    .card-container {
-      position: relative;
-      background-color: var(--card-bg);
-      max-width: 950px;
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-      overflow: hidden;
-      padding: 45px;
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 40px;
-      align-items: center;
-      border: 1px solid rgba(243, 198, 105, 0.2);
-    }
+        /* Contenedor del Sobre */
+        .envelope-wrapper {
+            position: relative;
+            width: 380px;
+            height: 250px;
+            cursor: pointer;
+            margin-top: 180px;
+        }
 
-    @media (max-width: 820px) {
-      .card-container {
-        grid-template-columns: 1fr;
-        padding: 25px;
-        gap: 30px;
-      }
-    }
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--envelope-color);
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s ease;
+        }
 
-    /* Fondo de Mapa Interactivo SVG */
-    .map-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: 0.18;
-      z-index: 1;
-    }
+        /* Solapa Superior del Sobre */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 190px solid transparent;
+            border-right: 190px solid transparent;
+            border-top: 135px solid var(--flap-color);
+            transform-origin: top;
+            transition: transform 0.5s ease 0.4s, z-index 0.2s ease 0.4s;
+            z-index: 5;
+        }
 
-    .path-line {
-      stroke-dasharray: 1200;
-      stroke-dashoffset: 1200;
-      animation: drawPath 4s ease-in-out forwards;
-      animation-delay: 0.3s;
-    }
+        /* Bolsillo del Frente */
+        .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 190px solid var(--envelope-dark);
+            border-right: 190px solid var(--envelope-dark);
+            border-bottom: 135px solid var(--envelope-color);
+            border-radius: 0 0 8px 8px;
+            z-index: 4;
+        }
 
-    @keyframes drawPath {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
+        /* Sello de Cera Tipo Brújula */
+        .wax-seal {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 6;
+            transition: opacity 0.3s ease 0.2s;
+        }
 
-    .pulse-node {
-      animation: pulse 2s infinite ease-in-out;
-    }
+        /* La Carta / Mapamundi desplegable */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            width: 350px;
+            height: 230px;
+            background-color: var(--paper-color);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 3;
+            transition: transform 0.7s ease 0.5s, height 0.6s ease 0.9s, z-index 0.1s ease 0.7s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 1px dashed #d4c5b2;
+        }
 
-    @keyframes pulse {
-      0%, 100% { r: 6px; opacity: 0.8; }
-      50% { r: 10px; opacity: 1; }
-    }
+        /* Contenido desplegado de la carta */
+        .letter-content {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
 
-    /* Columna Izquierda: Postal */
-    .postcard-wrapper {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transform: rotate(-3deg);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        /* Trazo SVG del Camino */
+        .route-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    .postcard-wrapper:hover {
-      transform: rotate(0deg) scale(1.03);
-    }
+        .path-line {
+            fill: none;
+            stroke: var(--accent-red);
+            stroke-width: 3;
+            stroke-dasharray: 8, 6;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 2.5s ease-in-out 1.2s;
+        }
 
-    .postcard {
-      background: #ffffff;
-      padding: 16px 16px 28px 16px;
-      border-radius: 6px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-      width: 100%;
-      max-width: 360px;
-      position: relative;
-    }
+        /* Sellos de Viaje */
+        .travel-stamps {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
 
-    .postcard-stamp {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 50px;
-      height: 60px;
-      border: 2px dashed #ca8a04;
-      background: #fef08a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      font-weight: bold;
-      color: #854d0e;
-      text-transform: uppercase;
-      transform: rotate(5deg);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
+        .stamp {
+            border: 2px double var(--ink-blue);
+            padding: 6px 10px;
+            border-radius: 50%;
+            width: 75px;
+            height: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--ink-blue);
+            transform: rotate(-6deg);
+            background: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
 
-    .postcard img {
-      width: 100%;
-      height: auto;
-      border-radius: 3px;
-      display: block;
-    }
+        .stamp:nth-child(2) {
+            transform: rotate(6deg);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
 
-    .postcard-caption {
-      margin-top: 16px;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      color: #2a2a2a;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 500;
-    }
+        .stamp span {
+            font-size: 1rem;
+            display: block;
+        }
 
-    /* Columna Derecha: Mensaje */
-    .content-wrapper {
-      position: relative;
-      z-index: 2;
-    }
+        /* Postal con Foto */
+        .postcard-frame {
+            background: #fff;
+            padding: 10px 10px 20px 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            transform: rotate(-2deg);
+            max-width: 300px;
+            margin: 10px auto;
+            border: 1px solid #eee;
+            position: relative;
+        }
 
-    .badge-bar {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
+        .postcard-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-    .stat-badge {
-      background: rgba(243, 198, 105, 0.12);
-      border: 1px solid var(--accent-gold);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      color: var(--accent-gold);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
+        /* Texto */
+        .letter h2 {
+            color: var(--accent-red);
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--accent-gold);
-      line-height: 1.25;
-      margin-bottom: 22px;
-      text-shadow: 0 2px 10px rgba(243, 198, 105, 0.2);
-    }
+        .letter p {
+            color: var(--text-dark);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            text-align: justify;
+        }
 
-    p {
-      color: var(--text-light);
-      line-height: 1.7;
-      font-size: 1.05rem;
-      margin-bottom: 16px;
-      font-weight: 350;
-    }
+        .signature {
+            text-align: right;
+            font-weight: bold;
+            color: var(--accent-red);
+            margin-top: 10px;
+        }
 
-    .highlight-box {
-      border-left: 3px solid var(--accent-gold);
-      background: rgba(255, 255, 255, 0.03);
-      padding: 16px 20px;
-      border-radius: 0 12px 12px 0;
-      margin-top: 25px;
-      font-style: italic;
-      color: #cbd5e1;
-    }
+        /* Indicador */
+        .hint {
+            position: absolute;
+            bottom: -45px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            animation: pulse 1.5s infinite;
+        }
 
-    .signature {
-      margin-top: 12px;
-      color: var(--accent-gold);
-      font-weight: 700;
-      font-style: normal;
-      font-size: 1.15rem;
-    }
-  </style>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* --- ESTADO ABIERTO --- */
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+            z-index: 2;
+            transition: transform 0.5s ease, z-index 0.1s ease 0.5s;
+        }
+
+        .envelope-wrapper.open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-200px);
+            height: 720px;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            transition: transform 0.7s ease 0.4s, height 0.6s ease 0.9s, z-index 0.1s ease 0.4s;
+        }
+
+        .envelope-wrapper.open .letter-content {
+            opacity: 1;
+        }
+
+        .envelope-wrapper.open .path-line {
+            stroke-dashoffset: 0;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card-container">
-    <!-- Fondo SVG interactivo con camino animado -->
-    <svg class="map-background" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-      <path class="path-line" d="M 60 520 C 150 420, 220 480, 320 320 S 550 250, 740 100" fill="none" stroke="#f3c669" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 10"/>
-      <circle cx="60" cy="520" class="pulse-node" fill="#f3c669" />
-      <circle cx="320" cy="320" class="pulse-node" fill="#f3c669" />
-      <circle cx="740" cy="100" class="pulse-node" fill="#f3c669" />
-    </svg>
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="toggleCard()">
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="wax-seal">🧭</div>
+            <div class="pocket"></div>
+            
+            <!-- Carta Interior estilo Bitácora -->
+            <div class="letter">
+                <!-- Trazo SVG del Camino -->
+                <svg class="route-svg" viewBox="0 0 350 720" preserveAspectRatio="none">
+                    <path class="path-line" id="svgPath" d="M 50 40 Q 300 180 80 320 T 280 550 T 80 700" />
+                </svg>
 
-    <!-- Foto estilo Postal -->
-    <div class="postcard-wrapper">
-      <div class="postcard">
-        <div class="postcard-stamp">14 Prov<br>3 Países</div>
-        <img src="foto_papa.jpg" alt="Foto con papá">
-        <div class="postcard-caption">Mi guía en cada kilómetro del camino</div>
-      </div>
+                <div class="letter-content">
+                    <h2>¡Feliz cumpleaños, papá!</h2>
+                    
+                    <!-- Sellos de Viaje -->
+                    <div class="travel-stamps">
+                        <div class="stamp">
+                            <span>14</span> PROVINCIAS
+                        </div>
+                        <div class="stamp">
+                            <span>3</span> PAÍSES
+                        </div>
+                    </div>
+
+                    <p>Hoy quiero aprovechar este día tan especial para recordarte cuánto te quiero y lo agradecida que estoy por tenerte en mi vida.</p>
+                    
+                    <!-- Foto en Marco de Postal -->
+                    <div class="postcard-frame">
+                        <img src="foto.jpg" alt="Foto con papá">
+                    </div>
+
+                    <p>Esta foto guarda un momento hermoso, pero más allá de la imagen, representa todo lo que compartimos: tus consejos, tu apoyo incondicional y la tranquilidad de saber que siempre puedo contar contigo. Gracias por cada enseñanza, por las risas y por estar presente en cada paso del camino.</p>
+                    <br>
+                    <p>Deseo de corazón que este nuevo año de vida te traiga muchísima salud, alegría y momentos inolvidables. Te mereces todo lo mejor hoy y siempre.</p>
+                    <br>
+                    <p>¡Que disfrutes mucho tu día!</p>
+                    <p class="signature">Un abrazo enorme. ❤️</p>
+                </div>
+            </div>
+        </div>
+        <div class="hint">✉️ Haz clic sobre el sobre para abrir la carta</div>
     </div>
 
-    <!-- Contenido y carta de cumpleaños -->
-    <div class="content-wrapper">
-      <div class="badge-bar">
-        <span class="stat-badge">📍 14 Provincias</span>
-        <span class="stat-badge">🌎 3 Países</span>
-        <span class="stat-badge">🎉 11 / 09</span>
-      </div>
-
-      <h1>¡Feliz cumpleaños, papá!</h1>
-
-      <p>Hoy quiero aprovechar este día tan especial para recordarte cuánto te quiero y lo agradecida que estoy por tenerte en mi vida.</p>
-
-      <p>Esta foto guarda un momento hermoso, pero más allá de la imagen, representa todo lo que compartimos: tus consejos, tu apoyo incondicional y la tranquilidad de saber que siempre puedo contar contigo. Gracias por cada enseñanza, por las risas y por estar presente en cada paso del camino.</p>
-
-      <p>Deseo de corazón que este nuevo año de vida te traiga muchísima salud, alegría y momentos inolvidables. Te mereces todo lo mejor hoy y siempre.</p>
-
-      <div class="highlight-box">
-        ¡Que disfrutes mucho tu día! Un abrazo enorme. ❤️
-        <div class="signature">Te quiero, Pá!</div>
-      </div>
-    </div>
-  </div>
+    <script>
+        function toggleCard() {
+            const wrapper = document.getElementById('envelopeWrapper');
+            wrapper.classList.toggle('open');
+            
+            // Animación dinámica del camino SVG
+            const path = document.getElementById('svgPath');
+            const length = path.getTotalLength();
+            path.style.strokeDasharray = length;
+            
+            if (!wrapper.classList.contains('open')) {
+                path.style.strokeDashoffset = length;
+            } else {
+                path.style.strokeDashoffset = '0';
+            }
+        }
+    </script>
 
 </body>
 </html>
