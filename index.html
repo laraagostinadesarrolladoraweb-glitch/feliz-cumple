@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Feliz Cumpleaños Papá!</title>
+    <title>¡Feliz Cumple Pá!</title>
     <style>
         :root {
             --bg-color: #eaddca;
@@ -41,7 +41,7 @@
             max-width: 360px;
             height: 230px;
             cursor: pointer;
-            margin-top: 150px;
+            margin-top: 100px;
             margin-bottom: 50px;
         }
 
@@ -62,20 +62,12 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 50cqw solid transparent;
-            border-right: 50cqw solid transparent;
+            border-left: 180px solid transparent;
+            border-right: 180px solid transparent;
             border-top: 125px solid var(--flap-color);
             transform-origin: top;
             transition: transform 0.5s ease 0.4s, z-index 0.2s ease 0.4s;
             z-index: 5;
-        }
-
-        /* Fallback para navegadores sin container queries */
-        @supports not (border-left: 50cqw solid transparent) {
-            .flap {
-                border-left: 180px solid transparent;
-                border-right: 180px solid transparent;
-            }
         }
 
         /* Bolsillo del Frente */
@@ -120,10 +112,10 @@
             height: 210px;
             background-color: var(--paper-color);
             border-radius: 6px;
-            padding: 15px;
+            padding: 20px 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             z-index: 3;
-            transition: transform 0.7s ease 0.5s, height 0.6s ease 0.9s, z-index 0.1s ease 0.7s;
+            transition: transform 0.8s ease 0.5s, height 0.6s ease 0.8s, z-index 0.1s ease 0.8s, box-shadow 0.4s ease 0.8s;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -204,7 +196,7 @@
             transform: rotate(-2deg);
             width: 100%;
             max-width: 280px;
-            margin: 10px auto;
+            margin: 15px auto;
             border: 1px solid #eee;
             position: relative;
         }
@@ -219,15 +211,15 @@
         /* Texto y Tipografía Mobile */
         .letter h2 {
             color: var(--accent-red);
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .letter p {
             color: var(--text-dark);
-            font-size: 0.85rem;
-            line-height: 1.55;
+            font-size: 0.88rem;
+            line-height: 1.6;
             text-align: justify;
         }
 
@@ -235,7 +227,7 @@
             text-align: right;
             font-weight: bold;
             color: var(--accent-red);
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         /* --- ESTADO ABIERTO --- */
@@ -250,13 +242,15 @@
             pointer-events: none;
         }
 
+        /* La carta sube y pasa POR ENCIMA del sobre */
         .envelope-wrapper.open .letter {
-            transform: translateY(-170px);
-            height: 680px;
-            z-index: 10;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(-120px);
+            height: auto;
+            max-height: 85vh;
+            z-index: 100; /* Pasa por encima del sobre */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             overflow-y: auto;
-            transition: transform 0.7s ease 0.4s, height 0.6s ease 0.9s, z-index 0.1s ease 0.4s;
+            transition: transform 0.7s ease 0.4s, height 0.6s ease 0.8s, z-index 0s ease 0.8s;
         }
 
         .envelope-wrapper.open .letter-content {
@@ -267,14 +261,10 @@
             stroke-dashoffset: 0;
         }
 
-        /* Ajuste específico para pantallas muy pequeñas */
         @media (max-width: 380px) {
-            .envelope-wrapper {
-                margin-top: 130px;
-            }
-            .envelope-wrapper.open .letter {
-                height: 620px;
-                transform: translateY(-140px);
+            .flap {
+                border-left-width: 160px;
+                border-right-width: 160px;
             }
         }
     </style>
@@ -290,8 +280,8 @@
             <!-- Carta Interior estilo Bitácora -->
             <div class="letter">
                 <!-- Trazo SVG del Camino -->
-                <svg class="route-svg" viewBox="0 0 320 680" preserveAspectRatio="none">
-                    <path class="path-line" id="svgPath" d="M 40 30 Q 280 160 60 300 T 260 520 T 60 650" />
+                <svg class="route-svg" viewBox="0 0 320 750" preserveAspectRatio="none">
+                    <path class="path-line" id="svgPath" d="M 40 30 Q 280 160 60 300 T 260 520 T 60 700" />
                 </svg>
 
                 <div class="letter-content">
@@ -319,7 +309,7 @@
                     <p>Deseo de corazón que este nuevo año de vida te traiga muchísima salud, alegría y momentos inolvidables. Te mereces todo lo mejor hoy y siempre.</p>
                     <br>
                     <p>¡Que disfrutes mucho tu día!</p>
-                    <p class="signature">Un abrazo enorme. ❤️</p>
+                    <p class="signature">❤️</p>
                 </div>
             </div>
         </div>
